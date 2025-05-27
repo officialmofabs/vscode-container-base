@@ -18,7 +18,7 @@ if [[ -d "${PRE_CONFIG_HOOKS}" ]] && [ "$(ls -A "${PRE_CONFIG_HOOKS}")" ]; then
     done
 fi
 
-mkdir -p /home/vscode/.docker /home/vscode/.kube /home/vscode/.config/helm || true
+mkdir -p /home/mosgarage/.docker /home/mosgarage/.kube /home/mosgarage/.config/helm || true
 
 if [[ -z "${HOST_HOME}" ]]; then
     echo "Warning: HOST_HOME environment variable is not, unable to setup user customizations. This means that things like docker, helm, kubectl, and skaffold will not work" 1>&2
@@ -31,13 +31,13 @@ else
         echo "Warning: Kubeconfig not found in ${HOST_HOME}/.kube/config. Pleaese go to https://rancher.oit.ohio.edu and setup your local kubeconfig. Your Kubernetes cluster will not be accessible until you do this and restart this container." 1>&2
     else
         echo "✓ Found kubeconfig at ${HOST_HOME}/.kube/config"
-        sudo cp "${HOST_HOME}/.kube/config" /home/vscode/.kube/config
-        sudo chown vscode:vscode /home/vscode/.kube/config
+        sudo cp "${HOST_HOME}/.kube/config" /home/mosgarage/.kube/config
+        sudo chown mosgarage:mosgarage /home/mosgarage/.kube/config
     fi
 
     echo "Setting up Helm..."
 
-    HELM_REPOSITORIES_YAML=/home/vscode/.config/helm/repositories.yaml
+    HELM_REPOSITORIES_YAML=/home/mosgarage/.config/helm/repositories.yaml
     HOST_HELM_REPOSITORIES_YAML=""
     for HOST_HELM in "${HOST_HOME}/.config/helm/repositories.yaml" "${HOST_HOME}/Library/Preferences/helm/repositories.yaml"; do
         if [[ -e "${HOST_HELM}" ]]; then
@@ -48,7 +48,7 @@ else
 
     if [[ -n "${HOST_HELM_REPOSITORIES_YAML}" ]]; then
         sudo cp "${HOST_HELM_REPOSITORIES_YAML}" "${HELM_REPOSITORIES_YAML}"
-        sudo chown vscode:vscode "${HELM_REPOSITORIES_YAML}"
+        sudo chown mosgarage:mosgarage "${HELM_REPOSITORIES_YAML}"
     else
         echo "Note: No user helm repositories were found in ${HOST_HOME}/.config/helm/repositories.yaml. You will not be able to use helm charts in Artifactory until this is setup." 1>&2
     fi

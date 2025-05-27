@@ -1,8 +1,8 @@
 FROM ubuntu:22.04
 
-LABEL org.opencontainers.image.source https://github.com/ohioit/vscode-devcontainer-base
+LABEL org.opencontainers.image.source https://github.com/officialmofabs/vscode-container-base
 
-ARG USERNAME=vscode
+ARG USERNAME=mosgarage
 ARG USER_UID=1000
 ARG USER_GID=1000
 ARG LANG=en_US.UTF-8
@@ -48,7 +48,7 @@ ENV LANGUAGE ${LANGUAGE}
 ENV LC_ALL ${LC_ALL}
 
 RUN groupadd -g $USER_GID $USERNAME && \
-    useradd -s /bin/zsh -m -d /home/vscode -u $USER_UID -g $USER_GID $USERNAME && \
+    useradd -s /bin/zsh -m -d /home/$USERNAME -u $USER_UID -g $USER_GID $USERNAME && \
     mkdir -p /etc/sudoers.d && \
     echo $USERNAME ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/$USERNAME && \
     chmod 0440 /etc/sudoers.d/$USERNAME
@@ -72,9 +72,9 @@ USER ${USER_UID}
 
 RUN /usr/local/bin/install-user-dependencies
 
-COPY --chown=vscode:vscode zshrc.zsh /home/vscode/.zshrc
-COPY --chown=vscode:vscode zsh-aliases.zsh /home/vscode/.zsh-aliases.zsh
-COPY --chown=vscode:vscode p10k.zsh /home/vscode/.p10k.zsh
+COPY --chown=${USERNAME}:${USERNAME} zshrc.zsh /home/${USERNAME}/.zshrc
+COPY --chown=${USERNAME}:${USERNAME} zsh-aliases.zsh /home/${USERNAME}/.zsh-aliases.zsh
+COPY --chown=${USERNAME}:${USERNAME} p10k.zsh /home/${USERNAME}/.p10k.zsh
 
 USER 0
 
@@ -86,8 +86,8 @@ RUN chmod u+rwx,g+rx,o+rx \
         /usr/local/bin/setup-container \
         /usr/local/bin/docker-entrypoint \
         /usr/local/bin/wait-for-death && \
-    mkdir /home/vscode/.docker /home/vscode/.kube && \
-    chown ${USER_UID}:${USER_GID} /home/vscode/.docker /home/vscode/.kube && \
+    mkdir /home/${USERNAME}/.docker /home/${USERNAME}/.kube && \
+    chown ${USER_UID}:${USER_GID} /home/${USERNAME}/.docker /home/${USERNAME}/.kube && \
     mkdir -p /usr/local/lib/devcontainer/hooks.d/pre-start && \
     mkdir -p /usr/local/lib/devcontainer/hooks.d/post-start
 

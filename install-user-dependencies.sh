@@ -7,12 +7,12 @@ curl -fsSLo /tmp/krew/krew.tar.gz "https://github.com/kubernetes-sigs/krew/relea
 tar -C /tmp/krew -zxvf "/tmp/krew/krew.tar.gz"
 /tmp/krew/krew-linux_amd64 install krew
 
-export PATH="${PATH}:/home/vscode/.krew/bin"
+export PATH="${PATH}:/home/mosgarage/.krew/bin"
 
 kubectl krew install neat debug-shell exec-cronjob mtail sniff secretdata
 
-mkdir -p "/home/vscode/.zsh" || true
-kubectl completion zsh > "/home/vscode/.zsh/kubernetes.sh"
+mkdir -p "/home/mosgarage/.zsh" || true
+kubectl completion zsh > "/home/mosgarage/.zsh/kubernetes.sh"
 
 echo "Installing Oh-My-ZSH..."
 sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended

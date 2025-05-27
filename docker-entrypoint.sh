@@ -3,8 +3,8 @@
 # from something like Docker run. It's designed to setup some
 # things vscode would otherwise do
 if [[ $(id -u) = "0" ]]; then
-    exec su -l vscode
+    exec su -l mosgarage
 else
-    echo "Unable to switch to vscode user, starting a shell."
+    echo "Unable to switch to mosgarage user, starting a shell."
     exec /usr/bin/zsh
 fi
