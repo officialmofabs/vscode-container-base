@@ -178,14 +178,31 @@
                 "yzane.markdown-pdf"
                 ]
         }
+        "hostRequirements": {
+		"cpus": 8,
+		"memory": "32gb",
+		"storage": "64gb"
+	},
+
+	// Use 'forwardPorts' to make a list of ports inside the container available locally.
+	 "forwardPorts": [5000, 5001],
+	 "portsAttributes": {
+			"5001": {
+				"protocol": "https"
+			}
+	 }
+    },
     },
     "postCreateCommand": "/usr/local/bin/setup-container",
-    "remoteUser": "mosgarage",
+    "remoteUser": "ubuntu",
     "remoteEnv": {
         "HOST_HOME": "/home/ubuntu/"
     },
     "mounts": [
-        "source=/home/ubuntu/,target=/home/ubuntu/,type=bind,readonly","source=/home/ubuntu/,target=/home/ubuntu/,type=bind,readonly"
+        "source=/home/ubuntu/,target=/home/ubuntu/,type=bind,readonly",
+        "source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind",
+        "source=/usr/local/bin/,target=/usr/local/bin/,type=bind"
+        "source=/home/ubuntu/apps/,target=/home/ubuntu/apps/,type=bind",
     ]
 			]
 		}
