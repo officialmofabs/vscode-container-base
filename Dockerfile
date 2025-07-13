@@ -1,7 +1,7 @@
-FROM ubuntu:22.04
+FROM ubuntu:22.10
+#FROM debian:12
 
 LABEL org.opencontainers.image.source https://github.com/officialmofabs/vscode-container-base
-
 ARG USERNAME=mosgarage
 ARG USER_UID=1000
 ARG USER_GID=1000
@@ -9,86 +9,37 @@ ARG LANG=en_US.UTF-8
 ARG LANGUAGE=en_US.UTF-8
 ARG LC_ALL=en_US.UTF-8
 
-RUN export DEBIAN_FRONTEND=noninteractive && \
-    apt-get update && \
-    apt-get -y dist-upgrade && \
-    apt-get -y install \
-        curl \
-        procps \
-        iputils-ping \
-        git \
-        curl \
-        sudo \
-        zsh \
-        shellcheck \
-        jq \
-        netcat \
-        dnsutils \
-        python3.9 \
-        python3-pip \
-        locales \
-        apt-transport-https \
-        ca-certificates \
-        software-properties-common \
-        vim \
-        wget \
-        unzip \
-        golang-chroma \
-        rsync \
-        nmap \
-        less && \
-    pip3 install yq && \
-    sed -i '/'${LANG}'/s/^# //g' /etc/locale.gen && \
-    locale-gen && \
-    apt-get autoremove --purge && rm -Rf /var/cache/apt/archives && \
-    unset DEBIAN_FRONTEND
+# Enable systemd
+ENV container docker
+STOPSIGNAL SIGRTMIN+3
 
-ENV LANG ${LANG}
-ENV LANGUAGE ${LANGUAGE}
-ENV LC_ALL ${LC_ALL}
+# Install systemd and other dependencies
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+    systemd systemd-sysv && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-RUN groupadd -g $USER_GID $USERNAME && \
-    useradd -s /bin/zsh -m -d /home/$USERNAME -u $USER_UID -g $USER_GID $USERNAME && \
-    mkdir -p /etc/sudoers.d && \
-    echo $USERNAME ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/$USERNAME && \
-    chmod 0440 /etc/sudoers.d/$USERNAME
+# Prevent some systemd units from starting (optional)
+RUN systemctl mask \
+    dev-hugepages.mount \
+    dev-mqueue.mount \
+    sys-fs-fuse-connections.mount \
+    systemd-remount-fs.service \
+    sys-kernel-config.mount \
+    sys-kernel-debug.mount \
+    systemd-logind.service \
+    systemd-journald.service \
+    systemd-udevd.service \
+    systemd-udevd-control.socket \
+    systemd-udevd-kernel.socket
 
-ARG SKAFFOLD_VERSION=2.13.2
-ARG KUBECTL_VERSION=1.30.4
-ARG HELM_VERSION=3.16.2
-ARG KUBESEAL_VERSION=0.27.2
-ARG K9S_VERSION=0.32.5
+# Cleanup unnecessary files (optional)
+RUN rm -f /lib/systemd/system/multi-user.target.wants/* && \
+    rm -f /lib/systemd/system/sockets.target.wants/*udev* && \
+    rm -f /lib/systemd/system/sockets.target.wants/*initctl* && \
+    rm -f /lib/systemd/system/basic.target.wants/* && \
+    rm -f /lib/systemd/system/anaconda.target.wants/*
 
-COPY install-system-dependencies.sh /usr/local/bin/install-system-dependencies
-RUN chmod +x /usr/local/bin/install-system-dependencies && \
-    /usr/local/bin/install-system-dependencies
-
-COPY adp-connect.sh /usr/local/bin/adp-connect
-COPY install-user-dependencies.sh /usr/local/bin/install-user-dependencies
-RUN chmod +x /usr/local/bin/install-user-dependencies \
-    /usr/local/bin/adp-connect
-
-USER ${USER_UID}
-
-RUN /usr/local/bin/install-user-dependencies
-
-COPY --chown=${USERNAME}:${USERNAME} zshrc.zsh /home/${USERNAME}/.zshrc
-COPY --chown=${USERNAME}:${USERNAME} zsh-aliases.zsh /home/${USERNAME}/.zsh-aliases.zsh
-COPY --chown=${USERNAME}:${USERNAME} p10k.zsh /home/${USERNAME}/.p10k.zsh
-
-USER 0
-
-COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint
-COPY wait-for-death.sh /usr/local/bin/wait-for-death
-COPY setup-container.sh /usr/local/bin/setup-container
-
-RUN chmod u+rwx,g+rx,o+rx \
-        /usr/local/bin/setup-container \
-        /usr/local/bin/docker-entrypoint \
-        /usr/local/bin/wait-for-death && \
-    mkdir /home/${USERNAME}/.docker /home/${USERNAME}/.kube && \
-    chown ${USER_UID}:${USER_GID} /home/${USERNAME}/.docker /home/${USERNAME}/.kube && \
-    mkdir -p /usr/local/lib/devcontainer/hooks.d/pre-start && \
-    mkdir -p /usr/local/lib/devcontainer/hooks.d/post-start
-
-ENTRYPOINT ["/usr/local/bin/docker-entrypoint"]
+# Set the default command for the container
+CMD ["/lib/systemd/systemd"]

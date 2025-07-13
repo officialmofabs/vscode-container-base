@@ -1,0 +1,29 @@
+[user]
+	name = Moses Fabiyi
+	email = 90117777+officialmofabs@users.noreply.github.com
+[diff]
+	tool = meld
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
+[init]
+	defaultBranch = master
+[credential "https://github.com"]
+	helper = 
+	helper = !/usr/bin/gh auth git-credential
+[credential "https://gist.github.com"]
+	helper = 
+	helper = !/usr/bin/gh auth git-credential
+[safe]
+	directory = /home/ubuntu/workspace
+    directory = /home/ubuntu/workspace/vscode-container-base
+	directory = /media/ubuntu/btrfs
+	directory = /media/ubuntu/btrfs1/mosgarage-home/.mosgarage/.securitycenter
+	directory = /media/ubuntu/btrfs1/mosgarage-home
+	directory = /home/ubuntu/development
+	directory = /media/ubuntu/btrfs/home/gitflow
+	directory = /media/ubuntu/btrfs/home/srv
+	directory = /home/ubuntu/development/.devcontainer-prod/NETprojects
+	directory = /home/ubuntu/development/.devcontainer-prod/vscode-dev-containers
