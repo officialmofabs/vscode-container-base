@@ -1,7 +1,13 @@
 {
     "folders": [
-        {
-            "path": ".."
-        }
-    ]
+		{
+			"path": "../.."
+		},
+		{
+			"path": "../../../cloud-development-projects-1/.devcontainer"
+		},
+		{
+			"path": "../../../cloud-development-projects-1/.nodeserver"
+		}
+	]
 }

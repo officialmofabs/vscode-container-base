@@ -130,7 +130,11 @@
                 "redhat.vscode-yaml",
                 "visualstudioexptteam.vscodeintellicode",
                 "ms-vsliveshare.vsliveshare",
-                "dotjoshjohnson.xml"
+                "dotjoshjohnson.xml",
+                "shd101wyy.markdown-preview-enhanced",
+                "XuangeAha.vsmarketplace-badges",
+                "bat67.markdown-extension-pack",
+                "yzane.markdown-pdf"
             ]
         }
     },

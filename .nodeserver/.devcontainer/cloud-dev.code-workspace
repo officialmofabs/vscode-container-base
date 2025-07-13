@@ -1,0 +1,83 @@
+{
+	"folders": [
+		{
+			"path": "/home/ubuntu/cloud-development-projects/.devcontainer/cloud-dev.code-workspace"
+		},{
+			"folders": [
+				{
+					"path": "../../../../media/ubuntu/btrfs/vsproject-directory.git"
+				}
+			],
+			"launch": {
+				"configurations": [
+					{
+						"name": "(gdb-oneapi) cmelf Launch",
+						"miDebuggerPath": "gdb-oneapi",
+						"MIMode": "gdb",
+						"type": "cppdbg",
+						"request": "launch",
+						"preLaunchTask": "",
+						"postDebugTask": "",
+						"stopAtEntry": true,
+						"program": "/home/ubuntu/projects/cmake/Utilities/cmelf",
+						"cwd": "${workspaceFolder}/build",
+						"args": [],
+						"environment": [
+							{
+								"name": "ZET_ENABLE_PROGRAM_DEBUGGING",
+								"value": "1"
+							},
+							{
+								"name": "IGC_EnableGTLocationDebugging",
+								"value": "1"
+							}
+						],
+						"externalConsole": false,
+						"setupCommands": [
+							{
+								"description": "Disable MI-async",
+								"text": "set mi-async off",
+								"ignoreFailures": true
+							},
+							{
+								"description": "Enable auto-load for all paths. Considered a security risk. See link for details: https://sourceware.org/gdb/current/onlinedocs/gdb.html/Auto_002dloading-safe-path.html",
+								"text": "set auto-load safe-path /",
+								"ignoreFailures": true
+							},
+							{
+								"description": "Enable pretty-printing for gdb",
+								"text": "set print pretty on",
+								"ignoreFailures": true
+							},
+							{
+								"description": "Set Disassembly Flavor to Intel",
+								"text": "set disassembly intel",
+								"ignoreFailures": true
+							},
+							{
+								"description": "Do not display function arguments when printing a stack frame",
+								"text": "set print frame-arguments none",
+								"ignoreFailures": true
+							}
+						]
+					}
+				]
+			}
+		}
+	],
+	"settings": {}
+}DATABASE_HOST=ecampusdev-spaces
+DATABASE_USER=ubuntu
+DATABASE_PASSWORD=applesauce
+DATABASE_DB=ecampusdev-spaces
+DATABASE_PORT=5432
+DATABASE_URL=postgresql://${DATABASE_USER}:${DATABASE_PASSWORD}@${DATABASE_HOST}:${DATABASE_PORT}/${DATABASE_DB}
+DATABASE_URL_TEST=postgresql://${DATABASE_USER}:${DATABASE_PASSWORD}@${DATABASE_HOST}:${DATABASE_PORT}/${DATABASE_DB}_test
+DATABASE_URL_DEV=postgresql://${DATABASE_USER}:${DATABASE_PASSWORD}@${DATABASE_HOST}:${DATABASE_PORT}/${DATABASE_DB}_dev
+DATABASE_URL_PROD=postgresql://${DATABASE_USER}:${DATABASE_PASSWORD}@${DATABASE_HOST}:${DATABASE_PORT}/${DATABASE_DB}_prod
+DATABASE_URL_STAGING=postgresql://${DATABASE_USER}:${DATABASE_PASSWORD}@${DATABASE_HOST}:${DATABASE_PORT}/${DATABASE_DB}_staging
+DATABASE_URL_DEVELOPMENT=postgresql://${DATABASE_USER}:${DATABASE_PASSWORD}@${DATABASE_HOST}:${DATABASE_PORT}/${DATABASE_DB}_development
+DATABASE_URL_DEVELOPMENT_TEST=postgresql://${DATABASE_USER}:${DATABASE_PASSWORD}@${DATABASE_HOST}:${DATABASE_PORT}/${DATABASE_DB}_development_test
+DATABASE_URL_DEVELOPMENT_DEV=postgresql://${DATABASE_USER}:${DATABASE_PASSWORD}@${DATABASE_HOST}:${DATABASE_PORT}/${DATABASE_DB}_development_dev
+DATABASE_URL_DEVELOPMENT_PROD=postgresql://${DATABASE_USER}:${DATABASE_PASSWORD}@${DATABASE_HOST}:${DATABASE_PORT}/${DATABASE_DB}_development_prod
+DATABASE_URL_DEVELOPMENT_STAGING=postgresql://${DATABASE_USER}:${DATABASE_PASSWORD}@${DATABASE_HOST}:${DATABASE_PORT}/${DATABASE_DB}_development_staging
