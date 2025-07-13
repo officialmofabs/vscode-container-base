@@ -5,8 +5,8 @@
     "features": {
         "ghcr.io/devcontainers/features/docker-outside-of-docker": {}
     },
-    "workspaceFolder": "/home/ecampusdev/workspace/.devcontainer-mosgarage",
-    "workspace": "/home/ecampusdev/workspace/.devcontainer-mosgarage/.vscode/workspace.code-workspace",
+    "workspaceFolder": "/home/ubuntu/workspace/vscode-container-base/.devcontainer",
+    "workspace": "/home/ubuntu/workspace/vscode-container-base/.devcontainer/devcontainer.json",
     
     "customizations": {
         "vscode": {
@@ -137,9 +137,9 @@
     "postCreateCommand": "/usr/local/bin/setup-container",
     "remoteUser": "mosgarage",
     "remoteEnv": {
-        "HOST_HOME": "/home/mosgarage/"
+        "HOST_HOME": "/home/ubuntu/"
     },
     "mounts": [
-        "source=${localEnv:HOME},target=${localEnv:HOME},type=bind,readonly"
+        "source=/home/ubuntu/,target=/home/ubuntu/,type=bind,readonly","source=/home/ubuntu/,target=/home/ubuntu/,type=bind,readonly"
     ]
 }
