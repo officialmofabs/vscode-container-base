@@ -14,7 +14,7 @@ on:
 jobs:
     build-and-push-latest:
       if: ${{ github.ref == 'refs/heads/main' }}
-      runs-on: ohioit
+      runs-on: officialmofabs/vscode-devcontainer-base
       permissions:
         contents: read
         packages: write
@@ -39,7 +39,7 @@ jobs:
 
     build-and-push-branch:
       if: startsWith(github.ref, 'refs/heads/cs/')
-      runs-on: ohioit
+      runs-on: officialmofabs/vscode-devcontainer-base
       permissions:
         contents: read
         packages: write
@@ -69,7 +69,7 @@ jobs:
 
     build-and-push-release:
       if: startsWith(github.ref, 'refs/tags/')
-      runs-on: ohioit
+      runs-on: officialmofabs
       permissions:
         contents: read
         packages: write
@@ -94,7 +94,7 @@ jobs:
 
     delete-merged-docker-tags:
       if: ${{ github.event.pull_request.merged == true && startsWith(github.event.pull_request.head.ref, 'cs/') }}
-      runs-on: ohioit
+      runs-on: officialmofabs/vscode-devcontainer-base
       steps:
         - name: Determine tag name from branch name
           env:
@@ -107,7 +107,7 @@ jobs:
             IMAGE_TAG: "${{ env.DOCKER_IMAGE_TAG }}"
           run: |
             TAG="${IMAGE_TAG}"
-            REPO=ohioit/vscode-devcontainer-base
+            REPO=officialmofabs/vscode-devcontainer-base
             IMAGE=vscode-devcontainer-base
             curl -X DELETE \
               -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
