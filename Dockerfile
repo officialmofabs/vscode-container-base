@@ -2,7 +2,7 @@ FROM ubuntu:22.10
 #FROM debian:12
 
 LABEL org.opencontainers.image.source https://github.com/officialmofabs/vscode-container-base
-ARG USERNAME=mosgarage
+ARG USERNAME=ubuntu
 ARG USER_UID=1000
 ARG USER_GID=1000
 ARG LANG=en_US.UTF-8

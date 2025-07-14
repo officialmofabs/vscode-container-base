@@ -41,7 +41,7 @@
 	// Configure tool-specific properties.
 	 "customizations": {
      "vscode": {
-        "extensions": [
+        "extensions": 
                 "editorconfig.editorconfig",
                 "davidanson.vscode-markdownlint",
                 "timonwong.shellcheck",
@@ -170,12 +170,12 @@
         }
     },
     "postCreateCommand": "/usr/local/bin/setup-container",
-    "remoteUser": "mosgarage",
+    "remoteUser": "ubuntu",
     "remoteEnv": {
         "HOST_HOME": "/home/ubuntu/"
     },
     "mounts": [
-        "source=/home/ubuntu/,target=/home/ubuntu/,type=bind,readonly","source=/home/ubuntu/,target=/home/ubuntu/,type=bind,readonly"
+        "source=/home/ubuntu/development,target=/home/ubuntu/development,type=bind,readonly",
     ]
 }
     },
